@@ -7,7 +7,7 @@ Hospital Decision Intelligence Platform that combines operational analytics, pre
 
 ## Overview
 
-HDIP is a web-based platform developed to help hospital administrators monitor hospital operations, analyze healthcare data, forecast patient demand, and support operational decision-making using predictive analytics, explainable machine learning, and interactive dashboards.
+HDIP is a web-based platform developed to help hospital administrators monitor hospital operations, analyze healthcare data, forecast patient demand, and support operational decision-making using predictive analytics, explainable machine learning, and interactive dashboard
 
 The platform combines operational analytics, predictive intelligence, scenario simulation, and decision support into a single application for resource planning and healthcare management.
 
