@@ -3,11 +3,9 @@ import joblib
 import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
-from typing import Dict, Any, List
+from typing import Dict, Any
 from sklearn.ensemble import GradientBoostingRegressor
 from app.modules.predictions.models.base import BaseModel
-from app.modules.predictions.pipeline import FeatureTransformer
-from app.modules.predictions.explainability import SHAPExplainer
 
 
 class DemandForecastModel(BaseModel):

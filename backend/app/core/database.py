@@ -1,4 +1,4 @@
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Any
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.pool import StaticPool
 from sqlalchemy.orm import DeclarativeBase
@@ -7,22 +7,18 @@ from app.config import settings
 # Create Async Engine — use StaticPool for SQLite, connection pool for Postgres
 _is_sqlite = settings.DATABASE_URL.startswith("sqlite")
 
-_engine_kwargs = dict(
-    echo=settings.DEBUG,
-    future=True,
-)
+_engine_kwargs: dict[str, Any] = {
+    "echo": settings.DEBUG,
+    "future": True,
+}
 
 if _is_sqlite:
-    _engine_kwargs.update(
-        connect_args={"check_same_thread": False},
-        poolclass=StaticPool,
-    )
+    _engine_kwargs["connect_args"] = {"check_same_thread": False}
+    _engine_kwargs["poolclass"] = StaticPool
 else:
-    _engine_kwargs.update(
-        pool_pre_ping=True,
-        pool_size=10,
-        max_overflow=20,
-    )
+    _engine_kwargs["pool_pre_ping"] = True
+    _engine_kwargs["pool_size"] = 10
+    _engine_kwargs["max_overflow"] = 20
 
 engine = create_async_engine(settings.DATABASE_URL, **_engine_kwargs)
 

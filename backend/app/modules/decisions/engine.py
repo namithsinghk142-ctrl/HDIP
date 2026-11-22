@@ -1,10 +1,9 @@
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, Optional
 from datetime import datetime
 import uuid
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 
-from app.models.decision import DecisionAuditLog, OperationalAlert
+from app.models.decision import DecisionAuditLog
 from app.modules.predictions.models.demand_forecast import DemandForecastModel
 from app.modules.predictions.models.bed_occupancy import BedOccupancyModel
 from app.modules.predictions.models.ed_wait_time import EDWaitTimeModel

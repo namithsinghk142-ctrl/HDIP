@@ -8,7 +8,6 @@ Covers: Authentication, Predictions, Decision Engine, Scenario Simulation,
 import pytest
 import pytest_asyncio
 from httpx import AsyncClient, ASGITransport
-from unittest.mock import patch, MagicMock
 
 from app.main import app
 

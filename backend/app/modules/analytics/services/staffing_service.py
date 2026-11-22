@@ -1,9 +1,8 @@
-from typing import Dict, Any, List
+from typing import Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
-from datetime import datetime, timedelta
 
-from app.models.operational import StaffingRecord, BedCensus
+from app.models.operational import StaffingRecord
 
 class StaffingAnalyticsService:
     """Service providing deep analytics into nurse staffing ratios, shift coverage, and overtime strain."""

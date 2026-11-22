@@ -16,7 +16,7 @@ Recommendation Structure:
 
 import math
 from typing import Dict, Any, List, Optional
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -296,7 +296,7 @@ class RecommendationEngine:
             )
 
             recs.append({
-                "recommendation_id":   f"demand_forecast_R1",
+                "recommendation_id":   "demand_forecast_R1",
                 "action":              (
                     f"Activate flex-staffing roster: deploy {extra_nurses} additional nurse(s) "
                     f"across Emergency and MedSurg between {shift_start} and {shift_end}."
@@ -332,7 +332,6 @@ class RecommendationEngine:
         risk_score    = {"critical": 90, "high": 75, "medium": 55, "low": 25}.get(risk, 55)
         p_score_d     = compute_priority_score(risk_score, 70, min(80, discharge_beds * 12), "low")
         conf_profile_d = compute_confidence_profile(pred_conf, "flow")
-        capacity_cost  = discharge_beds * 0   # discharge is cost-neutral; saves boarding costs
         reasoning_d    = self._build_reasoning_chain(
             model_type="demand_forecast",
             prediction_summary=f"Surge of +{surge_pct}% will require ~{beds_needed} additional beds",
@@ -636,7 +635,6 @@ class RecommendationEngine:
         tier         = prediction.get("risk_tier", "moderate")
         pred_conf    = prediction.get("confidence_score", 0.86)
         shap_top     = explanation.get("top_factors", [])
-        penalty_risk = impact.get("financial_cost_impact_usd", 0) * 83   # USD→INR approx
 
         recs = []
         is_high_risk = tier in HIGH_RISK_TIER
@@ -721,8 +719,8 @@ class RecommendationEngine:
         recs.append({
             "recommendation_id":   "readmission_risk_R2",
             "action":              (
-                f"Conduct bedside medication reconciliation and provide 30-day pharmacy blister pack "
-                f"prior to discharge."
+                "Conduct bedside medication reconciliation and provide 30-day pharmacy blister pack "
+                "prior to discharge."
             ),
             "action_detail": (
                 f"Clinical pharmacist bedside review: reconcile discharge medications, "

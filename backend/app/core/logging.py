@@ -8,7 +8,6 @@ execution timing, and exception formatting.
 import sys
 import logging
 import structlog
-from typing import Dict, Any
 
 def setup_logging(debug: bool = False) -> None:
     """Configures structlog for production JSON output or dev console output."""

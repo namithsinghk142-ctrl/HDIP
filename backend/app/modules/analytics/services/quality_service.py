@@ -1,7 +1,6 @@
-from typing import Dict, Any, List
+from typing import Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
-from datetime import datetime, timedelta
 
 from app.models.operational import QualityEvent, PatientEncounter
 
@@ -12,7 +11,7 @@ class QualityAnalyticsService:
     async def get_quality_overview(db: AsyncSession, department: str = None) -> Dict[str, Any]:
         # 1. 30-Day Readmission Metrics
         total_enc_query = select(func.count(PatientEncounter.id))
-        readmit_query = select(func.count(PatientEncounter.id)).where(PatientEncounter.readmitted_30d == True)
+        readmit_query = select(func.count(PatientEncounter.id)).where(PatientEncounter.readmitted_30d.is_(True))
 
         if department and department != "All":
             total_enc_query = total_enc_query.where(PatientEncounter.department == department)

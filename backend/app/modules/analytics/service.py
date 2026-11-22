@@ -1,6 +1,6 @@
 from typing import Dict, Any, List
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func, text
+from sqlalchemy import select, func
 from datetime import datetime, timedelta
 
 from app.models.operational import BedCensus, PatientEncounter, EDVisit

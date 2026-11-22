@@ -2,11 +2,10 @@ import os
 import joblib
 import numpy as np
 import pandas as pd
-from datetime import datetime, timedelta
-from typing import Dict, Any, List
+from datetime import datetime
+from typing import Dict, Any
 from sklearn.ensemble import GradientBoostingRegressor
 from app.modules.predictions.models.base import BaseModel
-from app.modules.predictions.pipeline import FeatureTransformer
 
 
 class EDWaitTimeModel(BaseModel):

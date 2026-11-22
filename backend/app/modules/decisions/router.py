@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Dict, Any, List, Optional
 import uuid
-from sqlalchemy import select, func, desc, update
+from datetime import datetime
+from sqlalchemy import select, func
 
 from app.core.database import get_db
 from app.core.permissions import get_current_user
@@ -514,7 +515,7 @@ async def get_executive_summary(
 ) -> Dict[str, Any]:
     """Returns complete aggregated data package for Executive Decision Center dashboard."""
     # Active alerts
-    alert_res = await db.execute(select(OperationalAlert).where(OperationalAlert.is_acknowledged == False))
+    alert_res = await db.execute(select(OperationalAlert).where(OperationalAlert.is_acknowledged.is_(False)))
     active_alerts = alert_res.scalars().all()
 
     # Recommendations

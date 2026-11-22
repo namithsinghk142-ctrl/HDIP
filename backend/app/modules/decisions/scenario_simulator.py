@@ -24,7 +24,7 @@ Supported Scenarios:
 """
 
 import math
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Tuple
 from datetime import datetime
 
 from app.modules.decisions.cascade_analyzer import cascade_analyzer
@@ -205,7 +205,6 @@ class ScenarioSimulator:
 
     def _build_baseline(self) -> Dict[str, Any]:
         """Build baseline model inputs representing current hospital state."""
-        from app.modules.decisions.engine import decision_engine  # lazy import
 
         class _FakeDB:
             """Minimal async DB stub for baseline prediction (no DB needed for inputs)."""
@@ -316,7 +315,6 @@ class ScenarioSimulator:
 
         elif scenario_type == "equipment_downtime":
             downtime_h = int(params.get("downtime_hours", 4))
-            treat_inc  = int(params.get("treatment_time_increase_min", 15))
             # Increased treatment time → more boarding → higher wait
             boarding_increase = math.ceil(downtime_h * 1.5)
             inputs["ed_wait_time"]["waiting_count"] += boarding_increase
@@ -336,7 +334,6 @@ class ScenarioSimulator:
 
         elif scenario_type == "mass_casualty_event":
             mci_count       = int(params.get("mci_patient_count", 40))
-            high_acuity_pct = float(params.get("high_acuity_pct", 70.0))
             inputs["ed_wait_time"]["ed_census"]      = min(40, 28 + mci_count)
             inputs["ed_wait_time"]["waiting_count"]  = mci_count
             inputs["ed_wait_time"]["acuity_level"]   = 2   # all ESI 1/2
@@ -419,7 +416,6 @@ class ScenarioSimulator:
         Returns True if any parameter exceeds ±30% of the training baseline,
         which increases the extrapolation penalty in confidence scoring.
         """
-        base_vol = baseline["demand_forecast"]["base_volume"]  # ≈ 45
         base_census = baseline["ed_wait_time"]["ed_census"]    # ≈ 28
 
         if scenario_type == "increased_patient_arrivals":

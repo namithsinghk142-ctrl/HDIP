@@ -175,8 +175,6 @@ class CascadeImpactAnalyzer:
     ) -> Dict[str, Any]:
         current_wait  = prediction.get("predicted_wait_minutes",
                          impact.get("predicted_wait_minutes", 35.0))
-        current_census = prediction.get("ed_census", 28)
-        boarding       = max(0, current_census - 30)
 
         # Census increase cascades to boarding → wait time increase
         boarding_from_surge = max(0, math.ceil(census_delta * 0.35))

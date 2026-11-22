@@ -18,7 +18,6 @@ Usage in route:
   ):
 """
 
-from functools import lru_cache
 from typing import List
 from fastapi import Depends, HTTPException, status
 from app.core.permissions import get_current_user
