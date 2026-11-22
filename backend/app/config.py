@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     STORAGE_PATH: str = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "..", "storage"))
 
     # Database (Defaults to SQLite for lightweight local dev without Docker, Postgres in prod)
-    DATABASE_URL: str = f"sqlite+aiosqlite:///{os.path.join(STORAGE_PATH, 'hip.db').replace('\\\\', '/')}"
+    DATABASE_URL: str = "sqlite+aiosqlite:///" + os.path.join(STORAGE_PATH, "hip.db").replace("\\", "/")
     
     # Redis & Celery
     REDIS_URL: str = "redis://localhost:6379/0"
