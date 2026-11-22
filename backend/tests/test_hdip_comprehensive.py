@@ -12,12 +12,23 @@ from httpx import AsyncClient, ASGITransport
 from app.main import app
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture
 def anyio_backend():
     return "asyncio"
 
 
-@pytest_asyncio.fixture(scope="module")
+@pytest_asyncio.fixture(autouse=True)
+async def setup_db():
+    """Ensure database tables exist and clean up connection pool per test."""
+    from app.core.database import engine, Base
+    from app.models import user, dataset, operational, ml_model, decision  # noqa: F401
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
+    await engine.dispose()
+
+
+@pytest_asyncio.fixture
 async def client():
     async with AsyncClient(
         transport=ASGITransport(app=app),
@@ -26,7 +37,7 @@ async def client():
         yield c
 
 
-@pytest_asyncio.fixture(scope="module")
+@pytest_asyncio.fixture
 async def auth_headers(client: AsyncClient):
     """Authenticate and return bearer headers for protected routes."""
     resp = await client.post(
